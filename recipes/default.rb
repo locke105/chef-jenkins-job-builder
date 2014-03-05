@@ -30,6 +30,12 @@ directory '/etc/jenkins_jobs' do
   mode '0750'
 end
 
+if node.attribute?('jenkins') && node['jenkins'].attribute?('server')
+  extern_url = node['jenkins']['server']['url']
+else
+  extern_url = nil
+end
+
 template '/etc/jenkins_jobs/jenkins_jobs.ini' do
   source 'jenkins_jobs.ini.erb'
   owner node['jenkins_job_builder']['user']
@@ -39,7 +45,7 @@ template '/etc/jenkins_jobs/jenkins_jobs.ini' do
     :username => node['jenkins_job_builder']['username'],
     :password => node['jenkins_job_builder']['password'],
     :url => node['jenkins_job_builder']['url'],
-    :external_url => node['jenkins']['server']['url'],
+    :external_url => extern_url,
     :hipchat_token => node['jenkins_job_builder']['hipchat_token']
   })
 end

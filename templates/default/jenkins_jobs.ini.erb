@@ -2,8 +2,10 @@
 user=<%= @username %>
 password=<%= @password %>
 url=<%= @url %>
+<% if @external_url %>
 external_url=<%= @external_url %>
-<%- if @hipchat_token -%>
+<% end %>
+<% if @hipchat_token %>
 [hipchat]
 authtoken=<%= @hipchat_token %>
-<%- end -%>
+<% end %>
